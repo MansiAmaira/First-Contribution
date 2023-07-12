@@ -37,7 +37,7 @@ Feel free to file an issue if you come across any bugs
 ## Contributors
 * [MANSI](https://github.com/MansiAmaira)
 * [B Anurag](https://github.com/BAnurag)
-*  MohitSaini
+* [Anju Meena](https://github.com/anjumnnit)
 
 
 
