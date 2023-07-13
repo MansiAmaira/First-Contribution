@@ -54,22 +54,6 @@ Bootstrap v4 Library
 rounds, and can send test link to selected developers
 
 
-
-
-
-
-<!-- workflow -->
-
-# Workflow 
-<code><img width="1000" src="npm-i-confidence.jpg"></code>
-
-<!-- workflow ends here -->
-
-### Team Members :
-##### **Mansi**
-##### **20214109**
-
-
 ## Contributors
 * [MANSI](https://github.com/MansiAmaira)
 * [B Anurag](https://github.com/BAnurag)
