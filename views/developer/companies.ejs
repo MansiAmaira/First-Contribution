@@ -1,0 +1,146 @@
+<!---------------------------------------- Contains list of companies to subscribe----------------------------- -->
+
+<!-- navigation bar -->
+
+<nav class="navbar navbar-expand-lg navbar-light sticky-top  bg-light">
+    <a class="navbar-brand" href=""><img src="/images/logo.jpg" alt="logo" ></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto pr-4">
+
+        <li class="nav-item btn btn-outline-primary">
+            <a  class="nav-link" href="/developer/recommended">
+              <i class="fa fa-delicious"></i>
+              Recommended
+            </a>
+        </li>
+
+        <li class="nav-item btn btn-outline-primary">
+          <a class="nav-link" href="/developer/dashboard">
+            <i class="fa fa-bullhorn"></i>
+            Job Posts
+          </a>
+        </li>
+
+        <li class="nav-item btn btn-outline-primary">
+            <a class="nav-link" href="/developer/statistics">
+                <i class="fa fa-bar-chart"></i>
+                Statistics
+            </a>
+        </li>
+
+        <li class="nav-item btn btn-danger">
+            <a class="nav-link activeNavLink" href="/developer/companies">
+                <i class="fa fa-group"></i>
+                Companies
+            </a>
+        </li>
+
+        <li class="nav-item btn btn-outline-primary">
+            <a class="nav-link" href="/developer/developersChat">
+                <i class="fa fa-wechat"></i>
+                Dev-Chat
+            </a>
+        </li>
+
+        <li class="nav-item btn btn-outline-primary">
+            <button type="button" class="btn nav-link centered" data-toggle="modal"  data-target="#notificationModal" class="nav-link">
+                <i class="fa fa-calendar-check-o"></i>
+                Notifications
+            </button>
+        </li>
+
+        <li class="nav-item dropdown btn btn-outline-primary">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-user-circle-o"></i>
+                <%= user.name %>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="/developer/portfolio">PortFolio</a>
+              <a class="dropdown-item" href="/developer/logout">Logout</a>
+        </li>
+        
+        
+        
+      </ul>
+      
+    </div>
+</nav>
+
+<!-- navigation bar ends here -->
+
+<!-- modal for notification section -->
+<%- include( "../partials/notifications" ) %>
+
+
+<!-- form used to search companies profile -->
+        
+<div class="container searchSection border-gradient border-gradient-purple">
+    <h3>Search Company Profile</h3>
+    <form action="/developer/searchCompany" method='POST'>
+        <div class="input-group p-3">
+        <input name='companyName' class="form-control searchInputTag" type="text" id="searchName" placeholder="Type a company name here...">
+        <button type='submit' id='searchButton' class="btn btn-light ml-2"><i class="fa fa-paper-plane"></i> Search</button>
+        </div>
+        
+    </form>
+</div>
+
+<div class="container companiesName">
+    
+
+
+    <div class="container p-2">
+        <div class="row">
+
+            <!-- companies is array of company objects of 'Company Schema'-->
+            <% companies.forEach(function(company){ %>
+                
+                <div class="col-md-4 col-sm-6 col-xs-12 mt-3">
+
+                    <div id="<%= company.name %>" class="card custom-card-subscription border-gradient border-gradient-purple" style="width: 18rem;">
+                        <div class="card-body">
+                        <h5 class="card-title cardCompanyName"><%= company.name %></h5>
+                        <p class="card-text cardCompanyEmail"><%= company.email %></p>
+                        <p class="card-text cardCompanyCountry"><%= company.country %></p>
+
+                        <!-- Check whether developer already subscribed or not -->
+                        <% 
+                        flag=1;
+                            user.subscribed.forEach(function(emailID){
+                                if(emailID==company.email){
+                                    flag=-1;
+                                }
+                            })
+                        if(flag==-1){ %> 
+                                <button class="subscribedButton btn btn-danger" >Subscribed <i class="fa fa-bell"></i></button>
+                        <% } 
+                        else { %>
+                                <button classs="subscribeButton" id="subscribe/<%= company.email %>" onclick="subscribeFunction('<%= company.email %>')" class="btn btn-primary"  >Subscribe <i class="fa fa-bell"></i></button>
+                            <% } %>
+                        </div>
+                    </div>
+        
+                </div>
+                
+            %>
+
+                
+            <% }) %>
+            
+
+        </div>
+    </div>
+</div>
+
+
+
+<!-- on click function for subscribe button  -->
+<script src="/js/subscribe.js"></script>
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="/js/searchAutocomplete.js"></script>

@@ -1,0 +1,309 @@
+<!-- navigation bar -->
+
+<nav class="navbar navbar-expand-lg navbar-light sticky-top  bg-light">
+    <a class="navbar-brand" href=""><img src="/images/logo.jpg" alt="logo" ></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto pr-4">
+
+        <li class="nav-item btn btn-outline-primary">
+            <a  class="nav-link" href="/developer/recommended">
+              <i class="fa fa-delicious"></i>
+              Recommended
+            </a>
+        </li>
+
+        <li class="nav-item btn btn-outline-primary">
+          <a class="nav-link" href="/developer/dashboard">
+            <i class="fa fa-bullhorn"></i>
+            Job Posts
+          </a>
+        </li>
+
+        <li class="nav-item btn btn-outline-primary">
+            <a class="nav-link" href="/developer/statistics">
+                <i class="fa fa-bar-chart"></i>
+                Statistics
+            </a>
+        </li>
+
+        <li class="nav-item btn btn-outline-primary">
+            <a class="nav-link" href="/developer/companies">
+                <i class="fa fa-group"></i>
+                Companies
+            </a>
+        </li>
+
+        <li class="nav-item btn btn-outline-primary">
+            <a class="nav-link" href="/developer/developersChat">
+                <i class="fa fa-wechat"></i>
+                Dev-Chat
+            </a>
+        </li>
+
+        <li class="nav-item btn btn-outline-primary">
+            <button type="button" class="btn nav-link centered" data-toggle="modal"  data-target="#notificationModal" class="nav-link">
+                <i class="fa fa-calendar-check-o"></i>
+                Notifications
+            </button>
+        </li>
+
+        <li class="nav-item dropdown btn btn-danger">
+            <a class="nav-link dropdown-toggle activeNavLink" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-user-circle-o"></i>
+                <%= user.name %>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="/developer/portfolio">PortFolio</a>
+              <a class="dropdown-item" href="/developer/logout">Logout</a>
+        </li>
+        
+        
+        
+      </ul>
+      
+    </div>
+</nav>
+
+<!-- navigation bar ends here -->
+
+<!-- modal for notification section -->
+<%- include( "../partials/notifications" ) %>
+
+<!-- ---------------------------PORTFOLIO SECTION--------------------------------------- -->
+
+<!-- Portfolio starts here  -->
+<div class="fluid-container portfolioBG">
+    <div class="portfolioHeading">
+        <h1 class="bg-primary"><%= user.name %></h1>
+        <h4 style="color:white">CREATE PORTFOLIO</h4>
+
+
+        <!-- messaging for portfolio changes -->
+        <% if(msg!='') { %>
+            <div class="form-group d-flex justify-content-center" style="padding-bottom: 0%; padding-top: 0%;">
+                <div class="alert alert-success alert-dismissible fade show " role="alert" style="width: 90%;">
+                    <%= msg %>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+        <% } %>
+
+
+
+    <!-- Portfolio form for updation -->
+    </div>
+    <div class="container">
+    <form action='/developer/portfolio' method='POST' class="portfolioForm">
+
+        <div class="row">
+            <!-- Column for -> image + bio  -->
+            <div class="col-md-5 col-sm-12">
+                <div class="d-flex justify-content-center">
+                    <img  class="profilePhoto" src="/images/avatar.png" alt="Profile">
+                </div>
+
+                <!-- button to upload profile image -->
+                <!-- <div class=" d-flex justify-content-center mt-2">
+                   <input class=" btn btn-primary" type="file" name='image' value='' required>
+                </div> -->
+
+                
+                <!-- email -->
+                <div class="form-group d-flex justify-content-center mt-3">
+                    <div class="input-group" style="width:100%">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                              Email
+                            </div>
+                        </div>
+                        <input
+                            name="email"
+                            type="email"
+                            class="form-control"
+                            required="required"
+                            value="<%= typeof user.email !='undefined'? user.email:'Email' %>"
+                            readonly
+                        />
+                    </div>
+                </div>
+
+                <!--bio input  -->
+                <div class="form-group d-flex justify-content-center mt-3">
+                    <div class="input-group" style="width:100%;">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                              Bio
+                            </div>
+                        </div>
+                        <input
+                            name="bio"
+                            type="bio"
+                            class="form-control"
+                            required="required"
+                            placeholder="<%= typeof portfolio.bio !='undefined'? portfolio.bio :'Write about yourself...' %>"
+                        />
+                    </div>
+                </div>
+                
+            </div>
+
+
+            <!-- gap,front-end part -->
+            <div class="col-md-2"></div>
+
+
+            <!-- COlumn for other details -->
+            <div class="col-md-5 col-sm-12">
+
+
+                <!-- skills -->
+                <h4>Select Top 3 skills :</h4>
+                
+                <div class="form-group d-flex justify-content-center">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                          Skill-1
+                        </div>
+                    </div>
+                    <select
+                        name="skill_1" class="form-control" required="required" style="width:90%"
+                    >
+                        <%- include( "../partials/skillsSelection" ) %>
+                    </select>
+                    
+                </div>
+
+                
+                <div class="form-group d-flex justify-content-center">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                          Skill-2
+                        </div>
+                    </div>
+                    <select
+                        name="skill_2" class="form-control" required="required" style="width:90%"
+                    >
+                        <%- include( "../partials/skillsSelection" ) %>
+                    </select>
+                </div>
+
+                
+                <div class="form-group d-flex justify-content-center">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                          Skill-3
+                        </div>
+                    </div>
+                    <select
+                        name="skill_3" class="form-control" required="required" style="width:90%"
+                    >
+                       <%- include( "../partials/skillsSelection" ) %>
+                    </select>
+                </div>
+
+                <!-- years of exerience -->
+                <h4>Year of Experience :</h4>
+                <div class="form-group d-flex justify-content-center">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                          Years
+                        </div>
+                    </div>
+                    <select
+                        name="experience" class="form-control" required="required" style="width:90%"
+                        value="<%= typeof portfolio.experience !=undefined ? portfolio.experience : '' %> "    
+                    >
+                      <option value="0">Fresher</option>
+                      <option value="1">One years</option>
+                      <option value="2">Two years</option>
+                      <option value="3">Three or more</option>
+                    </select>
+                </div>
+
+                <!-- college -->
+                <h4>College :</h4>
+                <div class="form-group d-flex justify-content-center mt-3">
+                    <div class="input-group" style="width:100%;">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                              Education @
+                            </div>
+                        </div>
+                        <input
+                            name="college"
+                            type="college"
+                            class="form-control"
+                            required="required"
+                            value="<%= typeof portfolio.college !=undefined ? portfolio.college : '' %> "
+                        />
+                    </div>
+                </div>
+
+
+                <!-- degree -->
+                <h4>Degree :</h4>
+                <div class="form-group d-flex justify-content-center">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                          Degree
+                        </div>
+                    </div>
+                    <select
+                        name="degree" class="form-control" required="required" style="width:90%"
+                        value="<%= typeof portfolio.degree !=undefined ? portfolio.degree : '' %> "
+                    >
+                      <option value="Bachelor">Bachelors</option>
+                      <option value="Master">Masters</option>
+                      <option value="Ph.D">Ph.D</option>
+                      <option value="Professional">Professional</option>
+                    </select>
+                </div>
+                
+
+                <!-- last job  -->
+                <h4>Last Job(if any) :</h4>
+                <div class="form-group d-flex justify-content-center mt-3">
+                    <div class="input-group" style="width:100%;">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                              Last Job
+                            </div>
+                        </div>
+                        <input
+                            name="lastJob"
+                            type="lastJob"
+                            placeholder="Did you work in any org"
+                            class="form-control"
+                            required="required"
+                            value="<%= typeof portfolio.lastJob !='undefined'? portfolio.lastJob:'' %>"
+                        />
+                    </div>
+                </div>
+
+                <!-- not lying argument -->
+                <div class="form-group d-flex justify-content-center">
+                    <div class="custom-controls-stacked" style="width:100%">
+                        <div class="custom-control custom-checkbox">
+                          <input type="checkbox" checked="checked" class="custom-control-input" onclick="return false"> 
+                          <label for="agree_0" class="custom-control-label">All the details ,I have provided are true and agree to terms of policy</label>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                <!-- save changes button of portfolio -->
+                <div class="d-flex justify-content-center">
+                    <button  style="width:100%" name="submit" type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    </div>
+</div>

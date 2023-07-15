@@ -1,0 +1,61 @@
+<!-- This page render when any developer login first time,used to take quiz and calculate his score as hidden marks -->
+
+<nav class="navbar sticky-top" style="background-color: #667aff">
+    <ul class="navbar-nav" style="margin-left: 25%; width:50%">
+        <li class="nav-item btn btn-outline-light">
+                <h3 > <i class="fa fa-clock-o"></i> <b id="timer">5:00</b>s<b></b></h3>
+        </li>
+    </ul>
+</nav>
+
+<div class="fluid-container quiz-bg">
+    
+
+    <div class="container quizSection">
+        <div class="quizHeading">
+            <h3>Joining Test</h3>
+        </div>
+        <div class="quizSubHeading">Dear <%= user.name %>, being a developer give this test. Score of this quiz plays important role during hiring process. </div>
+        <div class="quiz-header">
+            <p> <span style="color:black"> Mail query @ :</span><span style="color:gray">jobspace2020webster@gmail.com</span></p> 
+        </div>
+
+        
+        <hr>
+        <form id="quizForm" action="/developer/quizSubmission" method="POST">
+
+            <!-- Print 10 question,comes from 'Trivia api' -->
+            <% for(let i=0;i!=10;i++){ %>
+                <div class="question">
+                    <p class='hide' id='question<%= i %>'></p>
+        
+                    <ul> 
+                            <input  type="radio" name='ques<%= i %>options' id='ID<%= i %>option0'> <label id='<%= i %>option0'></label><br>
+                            <input  type="radio" name='ques<%= i %>options' id='ID<%= i %>option1'> <label id='<%= i %>option1'></label><br>
+                            <input  type="radio" name='ques<%= i %>options' id='ID<%= i %>option2'> <label id='<%= i %>option2'></label><br>
+                            <input  type="radio" name='ques<%= i %>options' id='ID<%= i %>option3'> <label id='<%= i %>option3'></label><br>        
+                    </ul>
+                </div>
+                
+        
+            <% } %>
+            
+            <div>
+                <button type='submit' class='btn btn-primary'>Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<!-- prevent cheating -->
+<script src="/preventCheating/preventCheating.js"></script>
+
+<!-- Trivia api for quiz -->
+<script src="/quizAPI/quizAPI.js"></script>
+
+<!-- quiz timer -->
+<script src="/quizAPI/timer.js"></script>
+
+<!-- auto quizFrom submission when timeout-->
+<script src="/quizAPI/timeout_submission.js"></script>

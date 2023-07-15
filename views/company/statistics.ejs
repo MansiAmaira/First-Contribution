@@ -1,0 +1,137 @@
+<!-- navigation bar -->
+
+<nav class="navbar navbar-expand-lg navbar-light sticky-top  bg-light">
+  <a class="navbar-brand" href=""><img src="/images/logo.jpg" alt="logo" ></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav ml-auto pr-4">
+        
+      <li class="nav-item btn btn-outline-primary">
+        <a class="nav-link" href="/company/dashboard">
+          <i class="fa fa-bar-chart"></i>
+          Timeline
+        </a>
+      </li>
+
+      <li class="nav-item btn btn-outline-primary">
+          <a class="nav-link" href="/company/addPost">
+              <i class="fa fa-bullhorn"></i>
+              Add Post
+          </a>
+      </li>
+
+      <li class="nav-item btn btn-danger">
+          <a class="nav-link activeNavLink" href="/company/statistics">
+              <i class="fa fa-bullhorn"></i>
+              Statistics
+          </a>
+      </li>
+
+      <li class="nav-item btn btn-outline-primary">
+          <a class="nav-link " href="/company/assessment">
+              <i class="fa fa-lightbulb-o"></i>
+              Assessment
+          </a>
+      </li>
+
+      <li class="nav-item btn btn-outline-primary">
+          <button type="button" class="btn nav-link centered" data-toggle="modal"  data-target="#notificationModal" class="nav-link">
+              <i class="fa fa-calendar-check-o"></i>
+              Notifications
+          </button>
+      </li>
+
+      <li class="nav-item dropdown btn btn-outline-primary">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fa fa-user-circle-o"></i>
+              <%= user.name %>
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="/company/profile">Profile</a>
+            <a class="dropdown-item" href="/company/logout">Logout</a>
+      </li>
+             
+    </ul>   
+  </div>
+</nav>
+
+<!-- naviagation bar ends here -->
+
+<!-- include partial of notification -->
+<%- include( "../partials/notifications" ) %>
+
+
+<!-- statistics section start from here -->
+
+<!-- 'posts' array of post object recieved  -->
+<div class="fluid-container stats-bg mt-3">
+  <h3 class="assessment-heading">Post Statistics</h3>
+  <p class="assessment-subheading">Click on 'Done' the post by filtering(selection/rejection) of developers and then go to assessment section for tests/quizzes to assess developers</p>
+<div class="container">
+  <div id="accordion">
+
+      <!--Iterate through all the post object,to show stats of all(who have applied) -->
+      <% posts.forEach(function(post){
+            if(post.isContinue=='YES'){ %>
+              
+              <div class="card mt-3 mb-3"  id="postDone/<%= post._id %>">
+                <div class="card-header">
+                  <div class="d-inline companyStats"><%= post.jobName %></div> 
+                  <div class="d-inline d-flex flex-row-reverse">
+                    <button class="btn btn-success" onclick="postDoneFunction('<%= post._id %>')">Done</button>
+                  </div>      
+                </div>
+  
+                <!-- 'appliedDev' contains email of all developer,so send them to route so 
+                     company can check their portfolio
+                -->
+                <% if(post.appliedDev.length==0){ %> 
+                  <div class="container p-2"><h5>No one applied yet !!</h5></div>
+                  <% } 
+                  else 
+                      {
+                        post.appliedDev.forEach(function(email){ 
+                          var developer=developers.find(developer=>{return developer.email===email})
+                        %>
+                              <div class="card-body row">
+                                <div class="">
+                                  <form action="/company/devProfile" method="POST">
+                                    <button class="btn btn-primary" id="declineEmail/<%= post._id %>/<%= email %>" type="submit" name="submit" value="<%= email %>"><%= developer.name %></button>
+                                  </form>
+                                </div>
+                                <div class="ml-1">
+                                  <form action="/company/developerStats" method="POST">
+                                    <button class="btn btn-primary" id="developerStats/<%= post._id %>/<%= email %>" type="submit" name="submit" value="<%= email %>">Check Stats</button>
+                                  </form>
+                                </div>
+                                <% 
+                                  var priorityScore=developer.hiddenScore; 
+                                %>
+                                <div class="ml-1">
+                                  <button class="btn btn-dark" id="priorityScore/<%= post._id %>/<%= email %>">Priority Score: <%= priorityScore %></button>
+                                </div>
+    
+                                <div class="col-md-6 col-xs-12 justify-content-right"> 
+                                  <button class="btn btn-danger" id="decline/<%= post._id %>/<%= email %>" onclick="declineFunction('<%= post._id %>/<%= email %>')" value="<%= email %>">
+                                    <i class="fa fa-minus-circle"></i>
+                                  </button>
+                                </div>
+                              </div>
+                        
+                <% }) } %>
+                
+            </div>
+           <% } %>
+
+      <% }) %>
+  
+  </div>
+</div>
+</div>
+
+<!-- decline Javascript file -->
+<script src="/js/decline.js"></script>
+<script src="/js/postDone.js"></script>

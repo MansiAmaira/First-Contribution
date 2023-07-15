@@ -1,0 +1,238 @@
+<!-- -------------------------------Developer's Sign up page------------------------------------- -->
+
+<!-- navigation bar -->
+
+<nav class="navbar navbar-expand-lg navbar-light sticky-top  bg-light">
+  <!-- <a style="color:white" class="navbar-brand" href=""><i class="fa fa-suitcase"></i> JobSpace</a> -->
+  <a class="navbar-brand" href=""><img src="/images/logo.jpg" alt="logo" ></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav ml-auto pr-4">
+      <li class="nav-item  btn btn-outline-primary">
+        <a class="nav-link" href="/">
+          <i class="fa fa-home"></i> Home</a>
+      </li>
+      
+      <li class="nav-item dropdown btn btn-danger">
+        <a class="nav-link dropdown-toggle activeNavLink" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="fa fa-user-plus"></i> Sign Up
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="/company/register">Company</a>
+          <a class="dropdown-item" href="/developer/register">Developer</a>
+      </li>
+
+      <li class="nav-item dropdown btn btn-outline-primary">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-sign-in"></i> Login
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="/company/login">Company</a>
+            <a class="dropdown-item" href="/developer/login">Developer</a>
+        </li>
+      
+    </ul>
+    
+  </div>
+</nav>
+<!-- navigation bar ends here -->
+
+
+
+<!-- Register Developer form -->
+<div class="fluid-container pt-3 registerSection">
+
+    <!-- heading -->
+    <h1 class="heading-register">Create Account</h1>
+    <p class="subHeading-Register">Create Portfolio, Show skills and get hired in big techies. Join the Community of millions of developer.</p>
+
+    <div class="container formSection-register">
+        <div class="row">
+
+            <!-- left part for details -->
+            <div class="col-md-5 col-sm-12">
+                <h2 class="infoHeading">Developer Access :</h2>
+
+                <!-- flush remove the border in list group -->
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Create portfolio.</li>
+                    <li class="list-group-item">Check timeline of Job Posts.</li>
+                    <li class="list-group-item">Apply according to skills.</li>
+                    <li class="list-group-item">Subscribe dream company for notifications.</li>
+                    <li class="list-group-item">Wait for the result of requested applications.</li>
+                </ul>
+
+                <div class="form-group  d-flex justify-content-left mt-3">
+                  <p class="haveAnAccount">Have an Account? <a href="/developer/login" >Login</a></p>
+                </div>
+
+            </div>
+
+             <!-- gap -->
+            <!-- <div class="col-md-1 col-sm-12"></div> -->
+
+            <!--Right part for form section -->
+            <div class="col-md-7 col-sm-12">
+
+                <!-- partial and flash messaging -->
+                <%- include ("./partials/messages") %>
+                
+                <form action='/developer/register' method='POST'>
+                    <div class="form-group d-flex justify-content-center">
+                       
+                      
+                        <div class="input-group" style="width:70%">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text">
+                              <i class="fa fa-user-circle"></i>
+                            </div>
+                          </div> 
+                          <input
+                            name="name"
+                            placeholder="Full Name"
+                            type="name"
+                            class="form-control"
+                            value="<%= typeof name !='undefined'? name:''%>"
+                            />
+                        </div>
+                      
+                    </div>
+            
+                    <div class="form-group d-flex justify-content-center">
+                        <div class="input-group" style="width:70%">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text">
+                              <i class="fa fa-envelope"></i>
+                            </div>
+                          </div> 
+                          <input
+                            name="email"
+                            id="email"
+                            placeholder="Email"
+                            type="email"
+                            class="form-control"
+                            value="<%= typeof email !='undefined'? email:''%>"
+                            />
+                        </div>
+                    </div>
+            
+                    <div class="form-group d-flex justify-content-center">
+                        <div class="input-group" style="width:70%">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text">
+                              <i class="fa fa-key"></i>
+                            </div>
+                          </div> 
+                          <input
+                            name="password1"
+                            placeholder="Password"
+                            type="password"
+                            class="form-control"
+                            value="<%= typeof password1 !='undefined'? password1:''%>"
+                            />
+                        </div>
+                    </div>
+            
+                    <div class="form-group d-flex justify-content-center">
+                        <div class="input-group" style="width:70%">
+                          <div class="input-group-prepend">
+                            <div class="input-group-text">
+                              <i class="fa fa-user-secret"></i>
+                            </div>
+                          </div> 
+                          <input
+                            name="password2"
+                            placeholder="Confirm Password"
+                            type="password"
+                            class="form-control"
+                            value="<%= typeof password2 !='undefined'? password2:''%>"
+                            />
+                        </div>
+                    </div>
+
+
+                    <!-- Send OTP button -->
+                    <div class="form-group  d-flex justify-content-center">
+                      <button id="getOTPButton" type="button" class="btn btn-primary nav-link" onclick="sendOTPFunction('developer')" data-toggle="modal"   class="nav-link">
+                        Verify
+                      </button>
+                    </div>
+                    
+
+                    <!-- Modal to enter OTP--> 
+                    <div class="modal fade" id="OTPModal" tabindex="-1" role="dialog" aria-labelledby="OTPModalTitle" aria-hidden="true">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header bg-success">
+                            <h5 style="color:white" class="modal-title" id="OTPModalTitle">One Time Password Privacy</h5>
+                          </div>
+                          <div class="modal-body">
+                            <ul class="list-group list-group-flush">
+                              <li class="list-group-item">Check your mail-box for OTP </li>      
+                            </ul>
+                            <div class="form-group d-flex justify-content-center">
+                              <div class="input-group" style="width:70%">
+                                <div class="input-group-prepend">
+                                  <div class="input-group-text">
+                                    <i class="fa fa-user-secret"></i>
+                                  </div>
+                                </div> 
+                                <input type="password" name='OTP' placeholder="Enter OTP here..." />
+                              </div>
+                            </div>
+                            <button type="button"  class="btn btn-success" data-dismiss="modal" aria-label="Close">
+                              Done
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+                    <!-- MOdal box to show error related to OTP -->
+                    <div class="modal fade" id="OTPErrorModal" tabindex="-1" role="dialog" aria-labelledby="OTPErrorModalTitle" aria-hidden="true">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header bg-danger">
+                            <h5 style="color:white" class="modal-title" id="OTPErrorModalTitle">OOPS !!! Error</h5>
+                          </div>
+                          <div class="modal-body">
+                            <ul class="list-group list-group-flush">
+                              <li class="list-group-item">Please,Enter your valid Email address.</li>      
+                            </ul>
+                            <button type="button"  class="btn btn-danger" data-dismiss="modal" aria-label="Close">
+                              Okay
+                            </button>
+                          </div>
+                          
+                        </div>
+                      </div>
+                    </div>
+
+
+                    <div class="form-group d-flex justify-content-center">
+                        <div class="custom-controls-stacked" style="width:70%">
+                            <div class="custom-control custom-checkbox">
+                              <input type="checkbox" checked="checked" class="custom-control-input" onclick="return false"> 
+                              <label for="agree_0" class="custom-control-label" style="color:white">Agree to our Term of Service and Privacy Policy</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                  
+                    <div class="form-group  d-flex justify-content-center">
+                        <button  style="width:70%" name="submit" type="submit" class="btn btn-primary">Sign Up</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<script src="/js/OTP.js"></script>

@@ -1,0 +1,184 @@
+<!------------------------------Shows only those posts of companies to which developer has subscribed------------------ -->
+
+<!-- navigation bar -->
+
+<nav class="navbar navbar-expand-lg navbar-light  sticky-top  bg-light">
+  <a class="navbar-brand" href=""><img src="/images/logo.jpg" alt="logo" ></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav ml-auto pr-4">
+
+      <li class="nav-item btn btn-danger">
+          <a  class="nav-link activeNavLink" href="/developer/recommended">
+            <i class="fa fa-delicious"></i>
+            Recommended
+          </a>
+      </li>
+
+      <li class="nav-item btn btn-outline-primary">
+        <a class="nav-link" href="/developer/dashboard">
+          <i class="fa fa-bullhorn"></i>
+          Job Posts
+        </a>
+      </li>
+
+      <li class="nav-item btn btn-outline-primary">
+          <a class="nav-link" href="/developer/statistics">
+              <i class="fa fa-bar-chart"></i>
+              Statistics
+          </a>
+      </li>
+
+      <li class="nav-item btn btn-outline-primary">
+          <a class="nav-link" href="/developer/companies">
+              <i class="fa fa-group"></i>
+              Companies
+          </a>
+      </li>
+
+      <li class="nav-item btn btn-outline-primary">
+          <a class="nav-link" href="/developer/developersChat">
+              <i class="fa fa-wechat"></i>
+              Dev-Chat
+          </a>
+      </li>
+
+      <li class="nav-item btn btn-outline-primary">
+            <button  type="button" class="btn nav-link centered" data-toggle="modal"  data-target="#notificationModal" class="nav-link">
+              <i class="fa fa-calendar-check-o"></i>
+              Notifications
+            </button>
+      </li>
+
+      <li class="nav-item dropdown btn btn-outline-primary">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fa fa-user-circle-o"></i>
+              <%= user.name %>
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="/developer/portfolio">PortFolio</a>
+            <a class="dropdown-item" href="/developer/logout">Logout</a>
+      </li>
+      
+      
+      
+    </ul>
+    
+  </div>
+</nav>
+
+<!-- navigation bar ends here -->
+
+<!-- modal for notification section -->
+<%- include( "../partials/notifications" ) %>
+
+
+<!-- Recommended and dashboard have same CSS files -->
+
+<div class="postTimeline">
+
+    <!-- button used to filter posts according to user choice -->
+    <button style="position: fixed;" type="button" class="filterButton btn btn-dark" data-toggle="modal"  data-target="#filterModal">
+      <i class="fa fa-filter"></i> Filter Posts
+    </button>
+    <!-- bring filter partial -->
+    <%- include ( "../partials/filterRecommendation" ) %>
+    
+    <!-- when user haven't subscribed any company else show all latest posts-->
+    <% 
+      if(user.subscribed.length==0){ %>
+
+        <h3>You haven't subscribed any company yet.Go to <a href="/developer/companies">here</a> to subscribe companies</h3>
+
+      <% }
+      var Posts=[];
+      Posts=posts;
+      Posts.reverse();
+      
+      user.subscribed.forEach(function(emailID){
+        Posts.forEach(function(post){
+            if(emailID==post.companyEmail){ 
+                if((post.companyName==filterCompanyName&&post.jobType==filterJobType)||
+                (post.companyName==filterCompanyName&&filterJobType=='both')||
+                (filterCompanyName=='all'&&filterJobType=='both')||
+                (filterCompanyName=='all'&&post.jobType==filterJobType)) { %> 
+
+                  <div class="container justify-content-center postbox">
+        
+        
+                    <div class="container jobName">
+                      <h2> <%= post.jobName %> </h2>
+                    </div>
+                
+                    <div class="container jobType">
+                      <h4> <%= post.jobType %> </h4>
+                    </div>
+                
+                    <div class="container companyName">
+                      <h3><%= post.companyName %></h3>
+                    </div>
+                
+                    <div class="container jobRole mb-2">
+                      <button class="btn-danger">Job Role </button>
+                      <h5  class="ml-3"> <%= post.jobRole %></h5>
+                    </div>
+                
+                    <div class="container skillsReq  mb-2">
+                      <button class="btn-danger">Skills</button>
+                      <h5 class="ml-3"> <%= post.skillsReq %></h5>
+                    </div>
+                
+                    <div class="container experience  mb-2">
+                      <button class="btn-danger">Experience</button>
+                      <h5 class="ml-3"> <%= post.expReq %></h6>
+                    </div>
+                    
+                    <!-- Check whether he has already applied or not -->
+                    <% var flag=1; 
+ 
+                    post.appliedDev.forEach(function(email){
+                      if(email==user.email){
+                        flag=-1;
+                      }
+                    })
+            
+                    if(flag==-1){ %> 
+            
+                      <div class="container applyHere">
+                        <button class="appliedButton btn btn-danger">Applied</button>
+                      </div>
+            
+                       <% } else { %> 
+                        
+                        <div class="container applyHere">
+                          <button class="applyButton btn btn-success" id='applyButton/<%= post._id %>' onclick='applyFunction("<%= post._id %>")' >Apply</button>
+                        </div>
+            
+                        <%}
+                    %>
+                    
+                
+                    <div class="container postTime">
+                      <p>Posted at : <%= post.date %> </p>
+                    </div>
+                    
+                    
+                  </div>
+
+                <%}     
+              %>
+
+                
+            
+            
+
+            <% }
+        })
+    }) %>
+</div>   
+
+<!-- on click function for apply button  -->
+<script src="/js/apply.js"></script>
